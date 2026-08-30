@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Manrope', sans-serif;
+  
+  --color-primary: var(--bg-color);
+  --color-secondary: var(--gold-color);
+  --color-accent: var(--text-color);
+}
+
+:root {
+  /* Dark Theme (Default) */
+  --bg-color: #0a0a0a;
+  --gold-color: #d4af37;
+  --text-color: #f4f4f4;
+}
+
+:root[data-theme='light'] {
+  /* Light Theme */
+  --bg-color: #fdfbf7; /* Very light warm white */
+  --gold-color: #b58b22; /* Slightly deeper gold for contrast */
+  --text-color: #00008B; /* Dark Blue */
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(to right, var(--gold-color), #f3e5ab, var(--gold-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
