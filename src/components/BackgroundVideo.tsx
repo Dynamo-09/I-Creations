@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import heroBannerVideo from '../assets/Hero_banner.mp4';
 
 export default function BackgroundVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -91,8 +92,8 @@ export default function BackgroundVideo() {
         disableRemotePlayback
         className="fixed top-0 left-0 w-full h-full object-cover -z-20 pointer-events-none"
       >
+        <source src={heroBannerVideo} type="video/mp4" />
         <source src="/Hero_banner.mp4" type="video/mp4" />
-        <source src="https://github.com/Dynamo-09/I-Creations/releases/download/v1.0.0/Hero_banner.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
