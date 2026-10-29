@@ -40,7 +40,7 @@ export default function About() {
                 Founded in the vibrant heart of Kolkata, I-Creations Event Management was born from a singular vision: to transform fleeting moments into unforgettable, cinematic realities. 
               </p>
               <p>
-                We are more than just planners; we are storytellers and designers. Our dedicated team specializes in translating your most ambitious dreams into flawless executions. Whether it is an opulent wedding draped in bespoke floral architecture or a highly calibrated corporate gala, our approach remains the sameâ€”quiet luxury, meticulous attention to detail, and a relentless pursuit of perfection.
+                We are more than just planners; we are storytellers and designers. Our dedicated team specializes in translating your most ambitious dreams into flawless executions. Whether it is an opulent wedding draped in bespoke floral architecture or a highly calibrated corporate gala, our approach remains the same — quiet luxury, meticulous attention to detail, and a relentless pursuit of perfection.
               </p>
               <p>
                 Over the years, we have cultivated exclusive relationships with top-tier vendors, ensuring that every element of your event, from the ambient lighting to the artisanal catering, is nothing short of spectacular.

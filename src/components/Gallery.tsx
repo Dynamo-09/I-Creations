@@ -60,6 +60,7 @@ export default function Gallery() {
               <img 
                 src={img.src} 
                 alt={img.alt} 
+                loading="lazy"
                 className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 grayscale-[20%] group-hover:grayscale-0"
               />
             </motion.div>
@@ -67,9 +68,14 @@ export default function Gallery() {
         </div>
         
         <div className="mt-16 text-center">
-          <button className="uppercase tracking-[0.2em] text-xs font-bold border-b border-secondary pb-2 text-secondary hover:text-accent hover:border-accent transition-colors duration-300">
+          <a 
+            href="https://instagram.com/icreations_events" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block uppercase tracking-[0.2em] text-xs font-bold border-b border-secondary pb-2 text-secondary hover:text-accent hover:border-accent transition-colors duration-300"
+          >
             Follow our Instagram
-          </button>
+          </a>
         </div>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader';
 
 const projects = [
@@ -44,9 +45,9 @@ export default function Portfolio() {
       <section id="portfolio" className="bg-transparent py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex justify-end mb-12">
-            <button className="uppercase tracking-[0.2em] text-xs font-bold border-b border-accent/30 pb-2 text-accent hover:text-secondary hover:border-secondary transition-colors duration-300">
+            <Link to="/gallery" className="uppercase tracking-[0.2em] text-xs font-bold border-b border-accent/30 pb-2 text-accent hover:text-secondary hover:border-secondary transition-colors duration-300">
               View Full Gallery
-            </button>
+            </Link>
           </div>
 
         <div className="grid grid-cols-12 gap-6">

@@ -1,8 +1,50 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import PageHeader from './PageHeader';
 
 export default function Contact() {
+  const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'draft_opened' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    date: '',
+    budget: '',
+    vision: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setSubmissionStatus('idle');
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMessage('');
+
+    try {
+      const { name, email, phone, date, budget, vision } = formData;
+      if (!name || !email || !date || !budget || !vision) {
+        throw new Error('Please fill in all required fields.');
+      }
+
+      // Generate mailto link and trigger same-tab dispatch
+      const subject = encodeURIComponent(`Bespoke Event Inquiry - ${name}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nEvent Date: ${date}\nEstimated Budget: ${budget}\n\nVision & Details:\n${vision}`
+      );
+
+      const mailtoLink = `mailto:inquiries@icreations.com?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+      setSubmissionStatus('draft_opened');
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : 'Failed to prepare email draft. Please try again.');
+      setSubmissionStatus('error');
+    }
+  };
+
   return (
     <>
       <PageHeader title="Let's Curate Your Masterpiece" subtitle="Inquiries" />
@@ -39,11 +81,43 @@ export default function Contact() {
           </div>
 
           <div className="lg:col-span-7">
-            <form className="flex flex-col gap-10" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-10" onSubmit={handleSubmit}>
+              {submissionStatus === 'draft_opened' && (
+                <motion.div 
+                  role="status"
+                  aria-live="polite"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-6 border border-secondary/30 bg-secondary/10 rounded-sm flex items-start gap-4 text-sm"
+                >
+                  <CheckCircle2 size={24} className="text-secondary shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <p className="font-semibold text-secondary">Email Draft Triggered</p>
+                    <p className="text-accent/80 leading-relaxed">
+                      Your default email application was prompted with your pre-filled inquiry. You can review and click send there, or copy your message below to send directly to <span className="text-secondary font-semibold">inquiries@icreations.com</span>.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {submissionStatus === 'error' && (
+                <div 
+                  role="alert"
+                  aria-live="assertive"
+                  className="p-4 border border-red-500/30 bg-red-500/10 rounded text-red-400 flex items-center gap-3 text-sm"
+                >
+                  <AlertCircle size={20} />
+                  <span>{errorMessage || 'Failed to process inquiry. Please check your inputs.'}</span>
+                </div>
+              )}
+
               <div className="relative">
                 <input 
                   type="text" 
                   id="name" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   required 
                   className="w-full bg-transparent border-b border-accent/20 py-4 text-accent focus:outline-none focus:border-secondary transition-colors peer placeholder-transparent"
                   placeholder="Name"
@@ -56,8 +130,43 @@ export default function Contact() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="relative">
                   <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required 
+                    className="w-full bg-transparent border-b border-accent/20 py-4 text-accent focus:outline-none focus:border-secondary transition-colors peer placeholder-transparent"
+                    placeholder="Email"
+                  />
+                  <label htmlFor="email" className="absolute left-0 -top-3.5 text-secondary text-xs uppercase tracking-widest transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-accent/50 peer-placeholder-shown:top-4 peer-focus:-top-3.5 peer-focus:text-secondary peer-focus:text-xs">
+                    Email Address
+                  </label>
+                </div>
+                <div className="relative">
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-accent/20 py-4 text-accent focus:outline-none focus:border-secondary transition-colors peer placeholder-transparent"
+                    placeholder="Phone"
+                  />
+                  <label htmlFor="phone" className="absolute left-0 -top-3.5 text-secondary text-xs uppercase tracking-widest transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-accent/50 peer-placeholder-shown:top-4 peer-focus:-top-3.5 peer-focus:text-secondary peer-focus:text-xs">
+                    Phone Number (Optional)
+                  </label>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="relative">
+                  <input 
                     type="date" 
                     id="date" 
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
                     required 
                     className="w-full bg-transparent border-b border-accent/20 py-4 text-accent focus:outline-none focus:border-secondary transition-colors text-accent/50 focus:text-accent"
                   />
@@ -69,6 +178,9 @@ export default function Contact() {
                   <input 
                     type="text" 
                     id="budget" 
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
                     required 
                     className="w-full bg-transparent border-b border-accent/20 py-4 text-accent focus:outline-none focus:border-secondary transition-colors peer placeholder-transparent"
                     placeholder="Budget"
@@ -82,6 +194,9 @@ export default function Contact() {
               <div className="relative">
                 <textarea 
                   id="vision" 
+                  name="vision"
+                  value={formData.vision}
+                  onChange={handleChange}
                   required 
                   rows={4}
                   className="w-full bg-transparent border-b border-accent/20 py-4 text-accent focus:outline-none focus:border-secondary transition-colors peer resize-none placeholder-transparent"
@@ -95,6 +210,7 @@ export default function Contact() {
               <motion.button 
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                type="submit"
                 className="self-end mt-4 bg-secondary text-primary px-10 py-4 uppercase tracking-[0.2em] font-bold text-sm flex items-center gap-3 hover:bg-[#e0bb43] transition-colors"
               >
                 Submit Inquiry <ArrowRight size={18} />

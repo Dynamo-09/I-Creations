@@ -29,11 +29,11 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-24 pt-8 border-t border-accent/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-accent/40 uppercase tracking-widest">
-        <p>© 2024 I Creations Event Management. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} I Creations Event Management. All rights reserved.</p>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-secondary transition-colors">Instagram</a>
-          <a href="#" className="hover:text-secondary transition-colors">YouTube</a>
-          <a href="#" className="hover:text-secondary transition-colors">Facebook</a>
+          <a href="https://instagram.com/icreations_events" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Instagram</a>
+          <a href="https://youtube.com/@icreations_events" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">YouTube</a>
+          <a href="https://facebook.com/icreations.events" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">Facebook</a>
         </div>
       </div>
     </footer>

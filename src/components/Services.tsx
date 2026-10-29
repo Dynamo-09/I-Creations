@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader';
 
 const services = [
@@ -56,9 +57,9 @@ export default function Services() {
               <p className="text-accent/70 leading-relaxed mb-8 max-w-md">
                 {svc.desc}
               </p>
-              <button className="uppercase tracking-[0.2em] text-xs font-bold border-b border-secondary pb-2 text-secondary hover:text-accent hover:border-accent transition-colors duration-300">
+              <Link to="/contact" className="uppercase tracking-[0.2em] text-xs font-bold border-b border-secondary pb-2 text-secondary hover:text-accent hover:border-accent transition-colors duration-300">
                 Discover More
-              </button>
+              </Link>
             </motion.div>
           </div>
         ))}

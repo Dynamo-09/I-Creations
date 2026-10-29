@@ -6,17 +6,16 @@ import { Link, useLocation } from 'react-router-dom';
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(() => (typeof window !== 'undefined' ? localStorage.getItem('theme') || 'dark' : 'dark'));
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
-    // Check system preference or localStorage
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -57,6 +56,7 @@ export default function Navbar() {
           
           <button 
             onClick={toggleTheme} 
+            aria-label="Toggle color theme"
             className="text-accent/80 hover:text-secondary transition-colors p-2 rounded-full hover:bg-secondary/10 ml-2"
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
@@ -70,11 +70,16 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-4">
           <button 
             onClick={toggleTheme} 
+            aria-label="Toggle color theme"
             className="text-accent/80 hover:text-secondary transition-colors"
           >
             {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
           </button>
-          <button className="text-secondary" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button 
+            className="text-secondary" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+          >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
